@@ -1,0 +1,53 @@
+<html>
+    <head>
+        <title>Aperikube</title>
+        <script src="https://code.jquery.com/jquery-1.11.3.js"></script>
+        <script type="text/javascript">
+            function checkSecret() {
+                $.ajax(window.location.href+"/secrets/", {
+                    success: function (data, status, xhr) {
+                        secretDiv = $('#secrets');
+                        if(data != secretDiv.html()) {
+                            $('#secrets').html(data);
+                            $('#update').show();
+                            $('#update').fadeOut(2000);
+                            startTime = new Date();
+                            $("#previous").html("Previous timer : " + $("#current").html());
+                        }
+                        
+                        setTimeout(checkSecret,2000);
+                    },
+                    error: function (data, status, xhr) {
+                        $('#secrets').html("Error retrieving data ! ");
+                    }
+                })
+            }
+            function startCounter() {
+                setInterval(function () {
+                    $("#current").html((new Date() - startTime)/1000 + " seconds");
+                }, 1000);
+            }
+
+            $(function() {
+                var startTime = new Date();
+                $("#update").hide();
+                startCounter();
+                checkSecret();
+            });
+        </script>
+    </head>
+    <body>
+        <h1>Aperikube : Kube with Vault</h1>
+        <div style="float:left;height:50px;">
+            <div id="update">Updated !</div>
+            <div id="timer">
+                <div id="current"></div>
+                <div id="previous"></div>
+            </div>
+        </div>
+        <div id="secrets" style="clear:both;float:left">
+            Loading secrets
+        </div>
+        
+    </body>
+</html>
