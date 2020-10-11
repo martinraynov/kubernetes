@@ -61,4 +61,6 @@ vault write auth/kubernetes/config token_reviewer_jwt="$SA_JWT_TOKEN" kubernetes
 vault write auth/kubernetes/role/kisio bound_service_account_names=vault-auth bound_service_account_namespaces=default policies=kisio-kv-ro ttl=24h
 
 # Create a symbolic link for the nginx folder
+# Error when using symlink and the mount of the containers 
 # ln -s ${PWD}/nginx /tmp/kube-vault-nginx
+cp -R ${PWD}/nginx /tmp/kube-vault-nginx
