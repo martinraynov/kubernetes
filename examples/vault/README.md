@@ -44,6 +44,46 @@ IHM of the Hashicorp Vault application.
 
 Can be accessed using the VAULT_ADDR : ${VAULT_ADDR}/ui/vault/access/kubernetes/configuration
 
+## OIDC for login
+
+You can use an SSO application for the login by activating the OIDC authentication method
+
+Execute the `oidc/oidc-k8s-setup.sh` file or do it step by step
+
+### Enable oidc auth method
+
+This will activate the OIDC authentication method that we will use further for login
+
+```
+vault auth enable oidc
+```
+
+### Configure the oidc auth method
+
+We will create the configuration for the OIDC authentication. Here we will specify the access that we have configured inside our SSO application.
+
+```
+vault write auth/oidc/config \
+        oidc_discovery_url="${OIDC_URL}" \
+        oidc_client_id="${OIDC_CLIENT_ID}" \
+        oidc_client_secret="${OIDC_CLIENT_SECRET}" \
+        default_role="reader"
+```
+
+### Create the reader Default Role
+
+We will create a default role to use for the OIDC authentication
+
+```
+vault write auth/oidc/role/reader \
+        bound_audiences="vault" \
+        allowed_redirect_uris="http://192.168.42.1:8200/ui/vault/auth/oidc/oidc/callback" \
+        allowed_redirect_uris="http://192.168.42.1:8200/oidc/callback" \
+        user_claim="sub" \
+        policies="reader"
+```
+
+
 ## Hashicorp Vault Agent with Kube
 
 You can execute the `setup-k8s-auth.sh` file or do it step by step.
@@ -68,10 +108,14 @@ HA Enabled      false
 ```
 
 ### Create a service account, 'vault-auth'
+```
 kubectl create serviceaccount vault-auth
+```
 
 ### Update the 'vault-auth' service account
+```
 kubectl apply --filename vault-auth-service-account.yml
+```
 
 ### Policies
 
@@ -152,10 +196,8 @@ vault write auth/kubernetes/role/kisio bound_service_account_names=vault-auth bo
 kubectl apply -f kisio-k8s-spec.yml --record
 ```
 
-
 ## Usefull documentations
 
 - Hashicorp vault agent with Kubernetes : https://learn.hashicorp.com/vault/identity-access-management/vault-agent-k8s and https://github.com/hashicorp/vault-guides/tree/master/identity/vault-agent-k8s-demo
 - Hashicorp vault beginners guide : https://devopscube.com/setup-hashicorp-vault-beginners-guide/
 - Hashicorp vault with DATABASE : https://learn.hashicorp.com/vault/developer/sm-app-integration
-
