@@ -55,6 +55,29 @@ spec:
         ]
 
   containers:
+    # RHSSO Container
+    # - name: hofund-rhsso
+    #   image: docker-registry.canaltp.fr/kisiodigital/hofund-rhsso:7.3-1
+
+    #   ports:
+    #     - containerPort: 8080
+
+    #   env:
+    #     - name: DB_VENDOR
+    #       value: ${DB_VENDOR}
+    #     - name: DB_ADDR
+    #       value: ${DB_ADDR}
+    #     - name: DB_DATABASE
+    #       value: ${DB_DATABASE}
+    #     - name: DB_USER
+    #       value: ${DB_USER}
+    #     - name: DB_PASSWORD
+    #       value: ${DB_PASSWORD}
+    #     - name: RHSSO_USER
+    #       value: ${RHSSO_USER}
+    #     - name: RHSSO_PASSWORD
+    #       value: ${RHSSO_PASSWORD}
+
     # Consul Template container
     - name: consul-template
       image: hashicorp/consul-template:alpine

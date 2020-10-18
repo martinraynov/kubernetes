@@ -12,6 +12,9 @@ vault policy write kisio-kv-ro kisio-kv-ro.hcl
 # Enable K/V v1 at secret/ if it's not already available
 # vault secrets enable -path=secret kv
 
+# Create the configmap that will be used by the pods
+kubectl create configmap kisio-vault-agent-config --from-file=./configs-k8s/
+
 # Create test data in the `secret/kisio` path.
 vault kv put secret/kisio/config username='martin' password='martin_pass' ttl='10s'
 vault secrets tune -default-lease-ttl=30s -max-lease-ttl=1m secret/kisio/config
@@ -50,4 +53,4 @@ vault write auth/kubernetes/role/kisio bound_service_account_names=vault-auth bo
 # Create a symbolic link for the nginx folder
 # Error when using symlink and the mount of the containers 
 # ln -s ${PWD}/nginx /tmp/kube-vault-nginx
-cp -R ../nginx /tmp/kube-vault-nginx
+cp -R ./nginx /tmp/kube-vault-nginx
