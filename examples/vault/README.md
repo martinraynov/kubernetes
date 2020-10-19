@@ -86,7 +86,7 @@ vault write auth/oidc/role/reader \
 
 ## Hashicorp Vault Agent with Kube
 
-You can execute the `setup-k8s-auth.sh` file or do it step by step.
+You can execute the `vault-k8s-setup.sh` file or do it step by step.
 
 ### Check vault 
 
