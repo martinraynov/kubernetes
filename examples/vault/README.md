@@ -1,5 +1,15 @@
 # Start Hashicorp Vault server and connect Kube PODS
 
+## Introduction
+
+In this example we will connect a Vault Application with a POD and reload the configs when we change them in Vault.
+
+![Vault Example Architecture](doc/vault_architecture.png)
+
+The objectif is to show that we can push a new config to multiple containers whitout having to do it manually and to know wich ones need it.
+
+![Vault Multi Pods Architecture](doc/vault_architecture_multi_pods.png)
+
 ## Installing Hashicorp Vault
 
 https://www.vaultproject.io/docs/install/
